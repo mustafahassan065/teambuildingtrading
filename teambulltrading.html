@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Bull Trading — Educating Traders Daily | Led by JDun | 5,000+ Members</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --lime:       #84CC16;
+      --lime-bright:#A3E635;
+      --lime-pale:  #D9F99D;
+      --charcoal:   #0D0F0A;
+      --dark:       #111309;
+      --surface:    #181A12;
+      --surface2:   #1F221A;
+      --border:     rgba(132,204,22,0.15);
+      --border2:    rgba(255,255,255,0.07);
+      --muted:      rgba(255,255,255,0.5);
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      background: var(--charcoal);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      overflow-x: hidden;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── LIME GRADIENT ── */
+    .lime-text {
+      background: linear-gradient(135deg, #65A30D, #84CC16, #A3E635, #84CC16);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .lime-glow { box-shadow: 0 0 50px rgba(132,204,22,0.25), 0 0 100px rgba(132,204,22,0.08); }
+    .btn-lime {
+      background: var(--lime);
+      color: var(--charcoal);
+      transition: all 0.3s ease;
+    }
+    .btn-lime:hover {
+      background: var(--lime-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(132,204,22,0.4);
+    }
+
+    /* ── NOISE ── */
+    body::before {
+      content:'';
+      position:fixed; inset:0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:9999; opacity:0.35;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      transition: all 0.35s ease;
+    }
+    nav.on {
+      background: rgba(13,15,10,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── HERO BG ── */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 65% 55% at 25% 25%, rgba(101,163,13,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 80% 75%, rgba(132,204,22,0.06) 0%, transparent 55%),
+        var(--charcoal);
+    }
+
+    /* ── CHART LINE (decorative) ── */
+    .chart-svg { filter: drop-shadow(0 0 8px rgba(132,204,22,0.4)); }
+
+    /* ── MARQUEE ── */
+    @keyframes bull-run {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .bull-ticker { animation: bull-run 28s linear infinite; }
+
+    /* ── FEATURE CARD ── */
+    .feat-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feat-card::before {
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(135deg, rgba(132,204,22,0.03) 0%, transparent 60%);
+      pointer-events:none;
+    }
+    .feat-card:hover {
+      border-color: var(--border);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(132,204,22,0.06);
+    }
+
+    /* ── TRADER CARD ── */
+    .trader-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      transition: all 0.4s ease;
+    }
+    .trader-card:hover {
+      border-color: var(--border);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 20px rgba(132,204,22,0.06);
+    }
+
+    /* ── PLAN CARD ── */
+    .plan-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      transition: all 0.4s ease;
+    }
+    .plan-card:hover { border-color: var(--border); }
+    .plan-card.featured {
+      border-color: var(--lime);
+      background: linear-gradient(145deg, #0e1308, var(--surface));
+    }
+
+    /* ── FAQ ── */
+    .faq-body { max-height:0; overflow:hidden; transition:max-height 0.45s ease; }
+    .faq-body.open { max-height:400px; }
+    .faq-icon { transition: transform 0.35s ease; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ── MOBILE ── */
+    #mnav {
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    #mnav.open { transform: translateX(0); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--charcoal); }
+    ::-webkit-scrollbar-thumb { background:var(--lime); border-radius:4px; }
+
+    /* ── REVEAL ── */
+    @keyframes riseIn {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .reveal { opacity:0; }
+    .reveal.in { animation: riseIn 0.65s ease forwards; }
+
+    /* ── LIVE DOT ── */
+    .live-dot {
+      width:8px; height:8px; border-radius:50%;
+      background: var(--lime);
+      box-shadow: 0 0 0 0 rgba(132,204,22,0.4);
+      animation: pulse-lime 2s infinite;
+    }
+    @keyframes pulse-lime {
+      0%   { box-shadow: 0 0 0 0 rgba(132,204,22,0.4); }
+      70%  { box-shadow: 0 0 0 8px rgba(132,204,22,0); }
+      100% { box-shadow: 0 0 0 0 rgba(132,204,22,0); }
+    }
+
+    /* ── TICKER CARD ── */
+    .ticker-item {
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex; gap: 10px; align-items: center;
+      white-space: nowrap;
+    }
+    .up-tag { color: var(--lime-bright); }
+    .dn-tag { color: #F87171; }
+
+    /* ── PROFIT BLOCK ── */
+    .profit-counter {
+      background: linear-gradient(135deg, #0e1308, #181A12);
+      border: 1px solid rgba(132,204,22,0.25);
+      border-radius: 20px;
+    }
+
+    /* ── GRID DOTS BG ── */
+    .dot-grid {
+      background-image: radial-gradient(circle, rgba(132,204,22,0.12) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* ── EBOOK CARD ── */
+    .ebook-cover {
+      background: linear-gradient(135deg, #0D1A05, #1a3008);
+      border: 1px solid rgba(132,204,22,0.3);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ebook-cover::after {
+      content:'';
+      position: absolute;
+      top:0; right:0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, transparent 60%, rgba(132,204,22,0.08) 100%);
+    }
+
+    /* ── VIDEO WRAPPER ── */
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* ── PRINCIPLE PILL ── */
+    .principle-num {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700; font-size: 0.85rem;
+      background: rgba(132,204,22,0.12);
+      border: 1px solid rgba(132,204,22,0.25);
+      color: var(--lime-bright);
+      flex-shrink: 0;
+    }
+
+    /* ── FLOOR BADGE ── */
+    .floor-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 100px;
+      font-size: 0.68rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .badge-admin { background: rgba(132,204,22,0.12); border:1px solid rgba(132,204,22,0.25); color:var(--lime-bright); }
+    .badge-elite { background: rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); color:#FDE68A; }
+    .badge-chat  { background: rgba(99,102,241,0.1);  border:1px solid rgba(99,102,241,0.25);  color:#A5B4FC; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAV
+═══════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 h-16 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:var(--lime);">
+        <span class="font-mono font-700 text-charcoal text-base leading-none" style="font-weight:700; color:var(--charcoal);">🐂</span>
+      </div>
+      <div>
+        <div class="font-700 text-white text-base leading-tight" style="font-weight:700;">Team Bull</div>
+        <div class="font-mono text-xs leading-none" style="color:var(--lime); letter-spacing:0.1em; font-size:0.6rem;">TRADING · EDUCATING DAILY</div>
+      </div>
+    </a>
+
+    <!-- Desktop -->
+    <div class="hidden lg:flex items-center gap-8">
+      <a href="#about"    class="text-gray-400 hover:text-white text-sm font-500 transition-colors" style="font-weight:500;">About</a>
+      <a href="#traders"  class="text-gray-400 hover:text-white text-sm font-500 transition-colors" style="font-weight:500;">Traders</a>
+      <a href="#features" class="text-gray-400 hover:text-white text-sm font-500 transition-colors" style="font-weight:500;">Features</a>
+      <a href="#pricing"  class="text-gray-400 hover:text-white text-sm font-500 transition-colors" style="font-weight:500;">Pricing</a>
+      <a href="#ebook"    class="text-gray-400 hover:text-white text-sm font-500 transition-colors" style="font-weight:500;">Free Ebook</a>
+      <a href="#faq"      class="text-gray-400 hover:text-white text-sm font-500 transition-colors" style="font-weight:500;">FAQ</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a href="https://whop.com/team-bull-trading/team-bull-trading?a=digitalartlab" target="_blank"
+         class="hidden lg:inline-flex btn-lime items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-700"
+         style="font-weight:700;">
+        Join Monthly — $99
+      </a>
+      <button id="ham" class="lg:hidden p-2 flex flex-col gap-1.5" aria-label="Menu">
+        <span class="hl w-6 h-0.5 rounded" style="background:#fff; transition:all 0.3s;"></span>
+        <span class="hl w-6 h-0.5 rounded" style="background:#fff; transition:all 0.3s;"></span>
+        <span class="hl w-4 h-0.5 rounded" style="background:#fff; transition:all 0.3s;"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div id="mnav" class="fixed inset-0 z-40 flex flex-col items-center justify-center" style="background:rgba(13,15,10,0.99);">
+  <div class="text-center space-y-8">
+    <a href="#about"    class="ml block font-700 text-5xl text-white uppercase tracking-wider" style="font-weight:700;">About</a>
+    <a href="#traders"  class="ml block font-700 text-5xl text-white uppercase tracking-wider" style="font-weight:700;">Traders</a>
+    <a href="#features" class="ml block font-700 text-5xl text-white uppercase tracking-wider" style="font-weight:700;">Features</a>
+    <a href="#pricing"  class="ml block font-700 text-5xl text-white uppercase tracking-wider" style="font-weight:700;">Pricing</a>
+    <a href="#ebook"    class="ml block font-700 text-5xl text-white uppercase tracking-wider" style="font-weight:700;">Free Ebook</a>
+    <a href="https://whop.com/team-bull-trading/team-bull-trading?a=digitalartlab" target="_blank"
+       class="inline-block mt-6 btn-lime px-10 py-4 rounded-xl font-700 text-lg" style="font-weight:700;">
+      Join — $99/mo →
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section class="hero-bg min-h-screen flex flex-col justify-center pt-16 relative overflow-hidden">
+
+  <!-- Background trading chart image -->
+  <div class="absolute inset-0">
+    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1800&q=80&auto=format&fit=crop"
+         alt="Trading charts" class="w-full h-full object-cover opacity-10" />
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(13,15,10,0.95) 0%, rgba(13,15,10,0.7) 50%, rgba(13,15,10,0.95) 100%);"></div>
+  </div>
+
+  <!-- Lime glow orb -->
+  <div class="absolute top-1/3 left-1/6 w-80 h-80 rounded-full blur-3xl opacity-15" style="background:var(--lime);"></div>
+
+  <!-- Top lime line -->
+  <div class="absolute top-0 left-0 right-0 h-0.5" style="background: linear-gradient(90deg, transparent, var(--lime), var(--lime-bright), var(--lime), transparent);"></div>
+
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 py-24 relative z-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- LEFT ── Copy -->
+      <div>
+        <!-- Live badge -->
+        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8" style="background:rgba(132,204,22,0.08); border:1px solid rgba(132,204,22,0.25);">
+          <div class="live-dot"></div>
+          <span class="font-mono text-xs font-700 uppercase tracking-widest" style="color:var(--lime-bright); font-weight:700;">Live Trading Daily 9:30AM ET · YouTube</span>
+        </div>
+
+        <h1 class="font-700 leading-none mb-6" style="font-size:clamp(3.5rem,8vw,7.5rem); font-weight:700; line-height:0.9;">
+          <span class="text-white">EDUCATING</span><br/>
+          <span class="lime-text">TRADERS</span><br/>
+          <span class="text-white">DAILY. 📚</span>
+        </h1>
+
+        <p class="text-gray-400 max-w-md mb-8 leading-relaxed" style="font-size:1.1rem;">
+          Founded by <strong class="text-white">JDun</strong> — 9+ years of day trading experience. A community of 5,000+ traders with 8+ professional educators running daily live sessions. We don't give signals. We teach you to fish.
+        </p>
+
+        <!-- Whop-confirmed metrics -->
+        <div class="flex items-center gap-4 mb-8">
+          <div class="flex gap-0.5"><span style="color:var(--lime);">★★★★★</span></div>
+          <span class="text-gray-400 text-sm">4.6 · 300+ reviews on Whop · Rated #1 Trading Community</span>
+        </div>
+
+        <div class="flex flex-wrap gap-4 mb-12">
+          <a href="https://whop.com/team-bull-trading/team-bull-trading?a=digitalartlab" target="_blank"
+             class="btn-lime inline-flex items-center gap-2 px-8 py-4 rounded-xl font-700 text-base"
+             style="font-weight:700;">
+            Join Monthly — $99/mo
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://whop.com/team-bull-trading/11-principles-to-profitable-trading-ebook?a=digitalartlab" target="_blank"
+             class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-600 text-base text-white border transition-all hover:border-lime-500"
+             style="border-color:var(--border2); font-weight:600;">
+            Free Ebook →
+          </a>
+        </div>
+
+        <!-- Hero stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="p-3 rounded-xl text-center" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-xl" style="color:var(--lime); font-weight:700;">5,000+</div>
+            <div class="text-xs text-gray-500 mt-0.5">Members</div>
+          </div>
+          <div class="p-3 rounded-xl text-center" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-xl" style="color:var(--lime); font-weight:700;">8+</div>
+            <div class="text-xs text-gray-500 mt-0.5">Pro Traders</div>
+          </div>
+          <div class="p-3 rounded-xl text-center" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-xl" style="color:var(--lime); font-weight:700;">$50M+</div>
+            <div class="text-xs text-gray-500 mt-0.5">Member Profits</div>
+          </div>
+          <div class="p-3 rounded-xl text-center" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-xl" style="color:var(--lime); font-weight:700;">9+ yrs</div>
+            <div class="text-xs text-gray-500 mt-0.5">JDun Trading</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT ── Animated Live Trading Dashboard -->
+      <div class="hidden lg:block space-y-4">
+
+        <!-- Live Session Card -->
+        <div class="rounded-2xl overflow-hidden" style="background:var(--surface); border:1px solid rgba(132,204,22,0.25);">
+          <!-- Header bar -->
+          <div class="flex items-center justify-between px-5 py-3" style="background:rgba(132,204,22,0.08); border-bottom:1px solid rgba(132,204,22,0.15);">
+            <div class="flex items-center gap-2">
+              <div class="live-dot"></div>
+              <span class="font-mono text-xs font-700 uppercase tracking-widest" style="color:var(--lime-bright); font-weight:700;">LIVE SESSION — JDun Trades</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-gray-500">9:30AM ET Daily</span>
+              <a href="https://www.youtube.com/@jduntrades" target="_blank" class="flex items-center gap-1 px-2.5 py-1 rounded text-xs font-700" style="background:rgba(255,0,0,0.15); color:#f87171; border:1px solid rgba(255,0,0,0.25); font-weight:700;">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3 3 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.81A3 3 0 0 0 2.62 20c1.84.55 9.38.55 9.38.55s7.54 0 9.38-.55a3 3 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.81zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+                YouTube
+              </a>
+            </div>
+          </div>
+
+          <!-- Animated chart area -->
+          <div class="relative p-5" style="height:200px; overflow:hidden;">
+            <!-- Chart background image -->
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=700&q=80&auto=format&fit=crop"
+                 alt="Trading charts" class="absolute inset-0 w-full h-full object-cover opacity-15" />
+
+            <!-- SVG animated chart line -->
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 600 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#84CC16" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#84CC16" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Fill area -->
+              <path d="M0,160 L40,150 L80,140 L120,135 L160,120 L200,125 L240,110 L280,100 L320,90 L360,80 L400,70 L440,75 L480,60 L520,50 L560,55 L600,45 L600,200 L0,200 Z"
+                    fill="url(#chartGrad)" opacity="0.6"/>
+              <!-- Main line -->
+              <path d="M0,160 L40,150 L80,140 L120,135 L160,120 L200,125 L240,110 L280,100 L320,90 L360,80 L400,70 L440,75 L480,60 L520,50 L560,55 L600,45"
+                    fill="none" stroke="#84CC16" stroke-width="2.5" stroke-linecap="round" class="chart-svg">
+                <animate attributeName="stroke-dashoffset" from="1000" to="0" dur="2.5s" begin="0s" fill="freeze"/>
+                <animateTransform attributeName="transform" type="translate" from="-600,0" to="0,0" dur="2.5s" begin="0s" fill="freeze"/>
+              </path>
+              <!-- Animated dot at end -->
+              <circle cx="600" cy="45" r="5" fill="#84CC16" opacity="0.9">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+
+            <!-- Overlay stats -->
+            <div class="relative z-10 h-full flex flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-xs text-gray-500 uppercase tracking-wider">NQ Futures</div>
+                  <div id="nqPrice" class="font-mono font-700 text-2xl text-white" style="font-weight:700;">21,847.25</div>
+                </div>
+                <div class="text-right">
+                  <div id="nqChange" class="font-mono font-700 text-lg" style="color:var(--lime-bright); font-weight:700;">+284.50</div>
+                  <div class="font-mono text-xs" style="color:var(--lime);">+1.32% today</div>
+                </div>
+              </div>
+
+              <div class="flex gap-3 mt-auto">
+                <div class="px-3 py-1.5 rounded-lg text-center flex-1" style="background:rgba(0,0,0,0.4);">
+                  <div class="font-mono text-xs text-gray-500">High</div>
+                  <div class="font-mono text-sm font-700 text-white" style="font-weight:700;">21,902</div>
+                </div>
+                <div class="px-3 py-1.5 rounded-lg text-center flex-1" style="background:rgba(0,0,0,0.4);">
+                  <div class="font-mono text-xs text-gray-500">Low</div>
+                  <div class="font-mono text-sm font-700 text-white" style="font-weight:700;">21,563</div>
+                </div>
+                <div class="px-3 py-1.5 rounded-lg text-center flex-1" style="background:rgba(0,0,0,0.4);">
+                  <div class="font-mono text-xs text-gray-500">Vol</div>
+                  <div class="font-mono text-sm font-700" style="color:var(--lime); font-weight:700;">2.4M</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live trade call feed -->
+          <div class="px-5 pb-5 space-y-2">
+            <div class="font-mono text-xs uppercase tracking-wider mb-2" style="color:var(--lime); font-weight:700;">🎙 JDun Live — Trade Calls</div>
+            <div id="tradeFeed" class="space-y-2">
+              <div class="trade-call flex items-center justify-between p-2.5 rounded-lg" style="background:rgba(132,204,22,0.06); border:1px solid rgba(132,204,22,0.15);">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-700" style="color:var(--lime); font-weight:700;">LONG</span>
+                  <span class="font-mono text-xs text-white">NQ @ 21,780 · 2 contracts</span>
+                </div>
+                <span class="font-mono text-xs" style="color:var(--lime-bright);">+67.25 pts</span>
+              </div>
+              <div class="trade-call flex items-center justify-between p-2.5 rounded-lg" style="background:rgba(132,204,22,0.06); border:1px solid rgba(132,204,22,0.15);">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-700" style="color:var(--lime); font-weight:700;">LONG</span>
+                  <span class="font-mono text-xs text-white">ES @ 5,698 · 1 contract</span>
+                </div>
+                <span class="font-mono text-xs" style="color:var(--lime-bright);">+26.00 pts</span>
+              </div>
+              <div class="trade-call flex items-center justify-between p-2.5 rounded-lg" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.15);">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-700 text-red-400">SHORT</span>
+                  <span class="font-mono text-xs text-white">NQ @ 21,820 · stopped</span>
+                </div>
+                <span class="font-mono text-xs text-red-400">-12.50 pts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Market overview strip -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="ticker-item flex-col text-center">
+            <div class="font-mono text-xs font-700 text-white mb-0.5" style="font-weight:700;">ES</div>
+            <div class="font-mono text-sm text-white">5,724</div>
+            <div class="font-mono text-xs up-tag">+0.87%</div>
+          </div>
+          <div class="ticker-item flex-col text-center">
+            <div class="font-mono text-xs font-700 text-white mb-0.5" style="font-weight:700;">SPY</div>
+            <div class="font-mono text-sm text-white">572.4</div>
+            <div class="font-mono text-xs up-tag">+0.92%</div>
+          </div>
+          <div class="ticker-item flex-col text-center">
+            <div class="font-mono text-xs font-700 text-white mb-0.5" style="font-weight:700;">QQQ</div>
+            <div class="font-mono text-sm text-white">487.2</div>
+            <div class="font-mono text-xs up-tag">+1.18%</div>
+          </div>
+        </div>
+
+        <!-- YouTube channel CTA -->
+        <a href="https://www.youtube.com/@jduntrades" target="_blank"
+           class="flex items-center justify-between p-4 rounded-xl transition-all hover:border-lime-500"
+           style="background:var(--surface2); border:1px solid var(--border2);">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(255,0,0,0.15);">
+              <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3 3 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.81A3 3 0 0 0 2.62 20c1.84.55 9.38.55 9.38.55s7.54 0 9.38-.55a3 3 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.81zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs font-700 text-white" style="font-weight:700;">Watch JDun Trade Live FREE</div>
+              <div class="font-mono text-xs text-gray-500">youtube.com/@jduntrades · 28.5K subs</div>
+            </div>
+          </div>
+          <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+
+      </div>
+
+      <style>
+        .trade-call { animation: fadeSlideIn 0.5s ease forwards; }
+        @keyframes fadeSlideIn {
+          from { opacity:0; transform:translateX(-8px); }
+          to   { opacity:1; transform:translateX(0); }
+        }
+      </style>
+
+      <script>
+        // Animate NQ price ticker
+        (function() {
+          const el = document.getElementById('nqPrice');
+          if (!el) return;
+          let base = 21847.25;
+          setInterval(() => {
+            const change = (Math.random() - 0.48) * 2.5;
+            base += change;
+            el.textContent = base.toFixed(2);
+          }, 2200);
+        })();
+      </script>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     LIME TICKER STRIP
+═══════════════════════════════════════ -->
+<div class="py-3 overflow-hidden" style="background:var(--lime);">
+  <div class="flex whitespace-nowrap">
+    <div class="bull-ticker flex items-center gap-10 px-6">
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">🐂 Educating Traders Daily</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">5,000+ Member Community</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">Daily Live Voice Trading · JDun & 8+ Pros</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">$50M+ in Member Profits</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">Free 11-Principle Ebook</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">Rated #1 on Whop · 4.6★</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <!-- dupe -->
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">🐂 Educating Traders Daily</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">5,000+ Member Community</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">Daily Live Voice Trading · JDun & 8+ Pros</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">$50M+ in Member Profits</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">Free 11-Principle Ebook</span>
+      <span style="color:var(--charcoal); opacity:0.4;">◆</span>
+      <span class="text-charcoal text-sm font-700 uppercase tracking-widest" style="font-weight:700; color:var(--charcoal);">Rated #1 on Whop · 4.6★</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ABOUT / FOUNDER STORY
+═══════════════════════════════════════ -->
+<section id="about" class="py-28" style="background:var(--surface);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-20 items-center">
+
+      <!-- Image -->
+      <div class="relative">
+        <div class="overflow-hidden rounded-2xl">
+          <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80&auto=format&fit=crop"
+               alt="Live trading session" class="w-full h-[480px] object-cover opacity-75 hover:opacity-90 transition-opacity duration-500" />
+        </div>
+        <div class="absolute inset-0 rounded-2xl" style="background: linear-gradient(to bottom right, rgba(132,204,22,0.05), transparent); pointer-events:none;"></div>
+        <!-- Floating profit card -->
+        <div class="absolute -bottom-6 -right-6 p-5 rounded-2xl" style="background:var(--surface); border:1px solid rgba(132,204,22,0.3); box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+          <div class="font-mono text-xs uppercase tracking-widest mb-1" style="color:var(--lime);">Member Profits</div>
+          <div class="font-700 text-3xl text-white" style="font-weight:700;">$50M+</div>
+          <div class="font-mono text-xs text-gray-500 mt-1">Documented community gains</div>
+        </div>
+      </div>
+
+      <!-- Copy -->
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-0.5 w-10" style="background:linear-gradient(90deg,var(--lime),transparent);"></div>
+          <span class="font-mono text-xs uppercase tracking-widest font-700" style="color:var(--lime); font-weight:700;">The Origin</span>
+        </div>
+        <h2 class="font-700 leading-none mb-6" style="font-size:clamp(2.5rem,5vw,4rem); font-weight:700;">
+          <span class="text-white">Built by a Trader.</span><br/>
+          <span class="lime-text">For Traders.</span>
+        </h2>
+        <p class="text-gray-400 leading-relaxed mb-6" style="font-size:1.05rem;">
+          <strong class="text-white">JDun (Jacob)</strong> started trading 9+ years ago — not with a silver spoon, but with determination. Growing up without a support system or financial safety net, he mastered the markets through discipline, hard work, and the kind of grinding that most people quit before they see results. When he finally cracked it, he knew he couldn't keep it to himself.
+        </p>
+        <p class="text-gray-400 leading-relaxed mb-8" style="font-size:1.05rem;">
+          Team Bull Trading was built to give others the education, community, and structure that JDun wished he had when he was starting out. Today, it's the largest trading community on Whop — with 5,000+ active members, 8+ professional trader educators, and $50M+ in documented member profits. The mission is simple: turn trading novices into savvy market participants through education and community.
+        </p>
+
+        <!-- Quote -->
+        <div class="p-5 rounded-xl mb-6" style="background:rgba(132,204,22,0.06); border-left:3px solid var(--lime); border-top:1px solid var(--border); border-right:1px solid var(--border); border-bottom:1px solid var(--border);">
+          <p class="text-gray-300 text-sm leading-relaxed italic">"I've dedicated my career to demystifying the complex world of day trading. My mission is to turn trading novices into savvy market participants through education and community support."</p>
+          <div class="font-mono text-xs mt-3" style="color:var(--lime);">— JDun, Founder · @teambulltrading</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-lg" style="color:var(--lime); font-weight:700;">9+ Years</div>
+            <div class="text-xs text-gray-500 mt-0.5">JDun's trading experience</div>
+          </div>
+          <div class="p-4 rounded-xl" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-lg" style="color:var(--lime); font-weight:700;">30+ Years</div>
+            <div class="text-xs text-gray-500 mt-0.5">Combined team experience</div>
+          </div>
+          <div class="p-4 rounded-xl" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-lg" style="color:var(--lime); font-weight:700;">#1</div>
+            <div class="text-xs text-gray-500 mt-0.5">Rated trading community on Whop</div>
+          </div>
+          <div class="p-4 rounded-xl" style="background:var(--surface2);">
+            <div class="font-mono font-700 text-lg" style="color:var(--lime); font-weight:700;">Private</div>
+            <div class="text-xs text-gray-500 mt-0.5">Enrollment opens occasionally</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THE TRADING FLOOR
+═══════════════════════════════════════ -->
+<section class="py-28" style="background:var(--dark);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="flex items-center justify-center gap-3 mb-5">
+        <div class="h-px w-16" style="background:linear-gradient(90deg,transparent,var(--lime));"></div>
+        <span class="font-mono text-xs uppercase tracking-widest font-700" style="color:var(--lime); font-weight:700;">Exclusive Channels</span>
+        <div class="h-px w-16" style="background:linear-gradient(90deg,var(--lime),transparent);"></div>
+      </div>
+      <h2 class="font-700 leading-none" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:700;">
+        <span class="text-white">The Trading</span><br/>
+        <span class="lime-text">Floor</span>
+      </h2>
+      <p class="text-gray-500 max-w-lg mx-auto mt-4">Three tiers of trading intelligence — each with its own culture, standards, and level of expertise. This is where real trading education happens.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Admin Trading Floor -->
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="floor-badge badge-admin">Admin Floor</span>
+          <span class="text-xs text-gray-600">Premium Only</span>
+        </div>
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(132,204,22,0.1); border:1px solid var(--border);">
+          <svg class="w-6 h-6" style="color:var(--lime-bright);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3 class="font-700 text-xl text-white mb-3" style="font-weight:700;">Admin Trading Floor</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5">Where JDun, Grizzly, Brandon, GD, Savage, and the core Team Bull educators post their live trading ideas, setups, and deep market analysis. Follow professional thinking in real time. This is where institutional-level reasoning meets actionable education.</p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:var(--lime);">◆</span> Live trade ideas from 8+ pros</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:var(--lime);">◆</span> Real-time market analysis</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:var(--lime);">◆</span> Strategy discussion & breakdowns</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:var(--lime);">◆</span> Inter-admin discussion visible to members</li>
+        </ul>
+      </div>
+
+      <!-- Elite Trading Floor -->
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="floor-badge badge-elite">Elite Floor</span>
+          <span class="text-xs text-gray-600">Earned Access</span>
+        </div>
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.2);">
+          <svg class="w-6 h-6" style="color:#FDE68A;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 class="font-700 text-xl text-white mb-3" style="font-weight:700;">Elite Trading Floor</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5">Reserved for members who've earned the "Elite" title through hard work, consistency, and a demonstrated commitment to helping other members grow. Elite traders have proven themselves on the floor — following their ideas means following members who are actually trading profitably at a high level.</p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#FDE68A;">◆</span> Ideas from top community traders</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#FDE68A;">◆</span> Vetted, proven profitability</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#FDE68A;">◆</span> Peer-level analytical thinking</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#FDE68A;">◆</span> Community-earned status</li>
+        </ul>
+      </div>
+
+      <!-- Trading Chat -->
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="floor-badge badge-chat">Trading Chat</span>
+          <span class="text-xs text-gray-600">All Members</span>
+        </div>
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.2);">
+          <svg class="w-6 h-6" style="color:#A5B4FC;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h3 class="font-700 text-xl text-white mb-3" style="font-weight:700;">Trading Chat</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5">The heartbeat of Team Bull Trading. Open to all 5,000+ members at all times — an always-active channel where traders share ideas, ask questions, celebrate wins, and support each other through the inevitable losses. The networking alone here is worth more than most paid courses.</p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#A5B4FC;">◆</span> 5,000+ active traders 24/7</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#A5B4FC;">◆</span> Questions answered rapidly</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#A5B4FC;">◆</span> Networking & accountability</li>
+          <li class="flex items-center gap-2 text-xs text-gray-400"><span style="color:#A5B4FC;">◆</span> Win & loss accountability culture</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THE TRADERS
+═══════════════════════════════════════ -->
+<section id="traders" class="py-28" style="background:var(--surface);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center mb-14">
+      <h2 class="font-700 leading-none" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:700;">
+        <span class="text-white">Meet the</span><br/>
+        <span class="lime-text">Team</span>
+      </h2>
+      <p class="text-gray-500 max-w-lg mx-auto mt-4">8+ professional trader educators. Each has their own specialty, their own lane, and their own dedicated following inside the community.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- JDun -->
+      <div class="trader-card rounded-2xl overflow-hidden reveal col-span-1 md:col-span-2 lg:col-span-1">
+        <div class="h-52 relative">
+          <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80&auto=format&fit=crop"
+               alt="JDun Founder" class="w-full h-full object-cover opacity-70" />
+          <div class="absolute inset-0" style="background:linear-gradient(to top,var(--surface) 0%, transparent 55%);"></div>
+          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-700" style="background:var(--lime); color:var(--charcoal); font-weight:700;">Founder</div>
+        </div>
+        <div class="p-6">
+          <div class="font-700 text-2xl text-white mb-1" style="font-weight:700;">JDun Trades</div>
+          <div class="font-mono text-xs uppercase tracking-wider mb-3" style="color:var(--lime); font-weight:600;">Founder · VPA & Price Action · 9+ Years</div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4">Jacob is the founder and heart of Team Bull. He primarily focuses on NQ (Nasdaq) futures, VPA (Volume Price Analysis), and price action trading. He trades live on YouTube and Discord every morning at 9:30AM ET, giving members a front-row seat to his decision-making process.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">NQ Futures</span>
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Price Action</span>
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">ORB Strategy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grizzly -->
+      <div class="trader-card rounded-2xl overflow-hidden reveal">
+        <div class="h-52 relative">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&auto=format&fit=crop"
+               alt="Grizzly trades" class="w-full h-full object-cover opacity-70" />
+          <div class="absolute inset-0" style="background:linear-gradient(to top,var(--surface) 0%, transparent 55%);"></div>
+          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-700" style="background:rgba(132,204,22,0.15); color:var(--lime-bright); border:1px solid var(--border); font-weight:700;">Lead Educator</div>
+        </div>
+        <div class="p-6">
+          <div class="font-700 text-xl text-white mb-1" style="font-weight:700;">Grizzly Trades</div>
+          <div class="font-mono text-xs uppercase tracking-wider mb-3" style="color:var(--lime); font-weight:600;">Scalping & Small Account Expert</div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4">Widely considered one of the best small account and scalping educators in the game. Members credit Grizzly with transforming their confidence and consistency. His real-time decision commentary is described as "like having a trading coach inside your head."</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Scalping</span>
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Small Accounts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brandon -->
+      <div class="trader-card rounded-2xl overflow-hidden reveal">
+        <div class="h-52 relative">
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80&auto=format&fit=crop"
+               alt="Brandon options trader" class="w-full h-full object-cover opacity-70" />
+          <div class="absolute inset-0" style="background:linear-gradient(to top,var(--surface) 0%, transparent 55%);"></div>
+          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-700" style="background:rgba(132,204,22,0.15); color:var(--lime-bright); border:1px solid var(--border); font-weight:700;">Options & Swing</div>
+        </div>
+        <div class="p-6">
+          <div class="font-700 text-xl text-white mb-1" style="font-weight:700;">Brandon Trades</div>
+          <div class="font-mono text-xs uppercase tracking-wider mb-3" style="color:var(--lime); font-weight:600;">Options · Fibonacci · Swing Trading</div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4">An options trader, swing specialist, YouTuber, and author. Brandon's expertise in Fibonacci levels, Persons Pivot, and TTM strategies gives members a completely different lens for finding significant market opportunities — particularly for traders with full-time jobs.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Options</span>
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Fibonacci</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GD -->
+      <div class="trader-card rounded-2xl overflow-hidden reveal">
+        <div class="h-52 relative">
+          <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&q=80&auto=format&fit=crop"
+               alt="GD Investments" class="w-full h-full object-cover opacity-70" />
+          <div class="absolute inset-0" style="background:linear-gradient(to top,var(--surface) 0%, transparent 55%);"></div>
+          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-700" style="background:rgba(132,204,22,0.15); color:var(--lime-bright); border:1px solid var(--border); font-weight:700;">Long-Term</div>
+        </div>
+        <div class="p-6">
+          <div class="font-700 text-xl text-white mb-1" style="font-weight:700;">GD Investments</div>
+          <div class="font-mono text-xs uppercase tracking-wider mb-3" style="color:var(--lime); font-weight:600;">Long-Term Investing · Fundamentals</div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4">GD brings the long-term investing perspective to Team Bull — fundamentals, technical analysis for longer time frames, and strategies built for those who want to build real wealth over time rather than day-trade every session. His knowledge spans traditional markets and emerging assets.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Long-Term</span>
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Fundamentals</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- + More Traders -->
+      <div class="trader-card rounded-2xl overflow-hidden reveal" style="background:rgba(132,204,22,0.04); border-color:var(--border);">
+        <div class="h-52 flex items-center justify-center relative" style="background:linear-gradient(135deg,rgba(132,204,22,0.06),transparent);">
+          <div class="text-center">
+            <div class="font-700 text-6xl mb-3" style="color:var(--lime); font-weight:700;">8+</div>
+            <div class="font-mono text-sm text-gray-500 uppercase tracking-wider">Expert Educators</div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="font-700 text-xl text-white mb-1" style="font-weight:700;">And the Full Team</div>
+          <div class="font-mono text-xs uppercase tracking-wider mb-3" style="color:var(--lime); font-weight:600;">Savage + Guest Speakers + More</div>
+          <p class="text-gray-500 text-sm leading-relaxed mb-4">Savage and additional educators round out the team — covering crypto, additional futures strategies, and risk management. Team Bull also invites industry leaders as guest speakers, including trading psychologist Jared Tendler and prop firm CEOs.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Guest Speakers</span>
+            <span class="px-2 py-1 rounded text-xs font-600" style="background:rgba(132,204,22,0.1); color:var(--lime); border:1px solid var(--border); font-weight:600;">Crypto</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FEATURES
+═══════════════════════════════════════ -->
+<section id="features" class="py-28" style="background:var(--charcoal);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center mb-14">
+      <h2 class="font-700 leading-none" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:700;">
+        <span class="text-white">Everything</span><br/>
+        <span class="lime-text">Inside</span>
+      </h2>
+      <p class="text-gray-500 max-w-lg mx-auto mt-4">Team Bull isn't just picks or signals. It's a complete trading ecosystem built for long-term, education-driven profitability.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(132,204,22,0.1); border:1px solid var(--border);">
+          <svg class="w-6 h-6" style="color:var(--lime-bright);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.876V15.124a1 1 0 01-1.447.895L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+        </div>
+        <h3 class="font-700 text-lg text-white mb-2" style="font-weight:700;">Daily Live Voice Trading</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Every morning, JDun, Grizzly, and the team go live on voice — screen sharing their charts, calling levels in real time, and explaining every decision as it happens. Members hear the reasoning behind each trade as market conditions change. This is the closest thing to trading with a pro beside you.</p>
+      </div>
+
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(132,204,22,0.1); border:1px solid var(--border);">
+          <svg class="w-6 h-6" style="color:var(--lime-bright);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3 class="font-700 text-lg text-white mb-2" style="font-weight:700;">Live Screen Share & Trade Recaps</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Beyond just voice commentary, traders share their screens so you can follow exactly what they're looking at. After sessions, the team does full trade recaps — explaining not just what happened, but why each trade was executed, where the edge was, and what was learned from losses.</p>
+      </div>
+
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(132,204,22,0.1); border:1px solid var(--border);">
+          <svg class="w-6 h-6" style="color:var(--lime-bright);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3 class="font-700 text-lg text-white mb-2" style="font-weight:700;">5,000+ Member Community</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Team Bull is described as a family — not in the hollow, cliché way, but because the community culture actively reinforces it. Members celebrate each other's wins, support each other through losses, and hold each other accountable. The network you build here is one of the most valuable trading assets you'll ever have.</p>
+      </div>
+
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(132,204,22,0.1); border:1px solid var(--border);">
+          <svg class="w-6 h-6" style="color:var(--lime-bright);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+        <h3 class="font-700 text-lg text-white mb-2" style="font-weight:700;">Thousands of Hours of Recordings</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Every session is recorded. JDun regularly updates the recording library to keep content current. Members get access to the entire archive — thousands of hours of real trading sessions, strategy breakdowns, guest speaker webinars, and educational modules covering everything from beginner basics to advanced market structure.</p>
+      </div>
+
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(132,204,22,0.1); border:1px solid var(--border);">
+          <svg class="w-6 h-6" style="color:var(--lime-bright);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg>
+        </div>
+        <h3 class="font-700 text-lg text-white mb-2" style="font-weight:700;">Weekly Education Schedule</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">A structured weekly educational schedule ensures consistent learning beyond just the daily live sessions. Covering technical analysis, trading psychology, risk management, options strategies, futures mechanics, and prop firm education — there's always something new to absorb and apply to your trading.</p>
+      </div>
+
+      <div class="feat-card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center" style="background:rgba(132,204,22,0.1); border:1px solid var(--border);">
+          <svg class="w-6 h-6" style="color:var(--lime-bright);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3 class="font-700 text-lg text-white mb-2" style="font-weight:700;">Industry-Leading Guest Speakers</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Team Bull regularly brings in accomplished guest speakers — including Jared Tendler (performance psychology expert), prop firm CEOs, and other successful professional traders. This access to external expertise and real-world perspectives is something no other trading Discord offers at this level of consistency.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FREE EBOOK SECTION
+═══════════════════════════════════════ -->
+<section id="ebook" class="py-28" style="background:var(--surface);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Ebook visual -->
+      <div class="flex justify-center">
+        <div class="relative max-w-sm w-full">
+          <div class="ebook-cover p-8 text-center">
+            <div class="font-mono text-xs uppercase tracking-widest mb-3" style="color:var(--lime);">Team Bull Trading · Free</div>
+            <div class="font-700 text-3xl text-white mb-2" style="font-weight:700; line-height:1.2;">11 Principles<br/>to Profitable<br/>Trading</div>
+            <div class="font-mono text-xs text-gray-500 mb-6">by JDun Trades & the Team Bull Educators</div>
+            <div class="w-16 h-1 mx-auto rounded mb-6" style="background:var(--lime);"></div>
+            <div class="text-6xl mb-4">📚</div>
+            <div class="text-sm text-gray-400 leading-relaxed">Trading psychology · Market principles · Mental models · Profitable mindset frameworks</div>
+            <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs font-700" style="background:var(--lime); color:var(--charcoal); font-weight:700;">FREE DOWNLOAD ↓</div>
+          </div>
+
+          <!-- The 11 principles preview -->
+          <div class="mt-5 space-y-2">
+            <div class="font-mono text-xs text-gray-600 uppercase tracking-wider mb-3">Preview: Inside the Ebook</div>
+            <div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--surface2);">
+              <div class="principle-num">01</div>
+              <div class="text-sm text-gray-300">Discipline Over Dopamine — Trade the Plan</div>
+            </div>
+            <div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--surface2);">
+              <div class="principle-num">02</div>
+              <div class="text-sm text-gray-300">Risk Management is the Edge</div>
+            </div>
+            <div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--surface2);">
+              <div class="principle-num">03</div>
+              <div class="text-sm text-gray-300">Psychology Beats Strategy</div>
+            </div>
+            <div class="flex items-center gap-3 p-3 rounded-lg opacity-60" style="background:var(--surface2);">
+              <div class="principle-num">04–11</div>
+              <div class="text-sm text-gray-400">8 More Principles... <span style="color:var(--lime);">Free to unlock →</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copy -->
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-0.5 w-10" style="background:linear-gradient(90deg,var(--lime),transparent);"></div>
+          <span class="font-mono text-xs uppercase tracking-widest font-700" style="color:var(--lime); font-weight:700;">Completely Free</span>
+        </div>
+        <h2 class="font-700 leading-none mb-6" style="font-size:clamp(2.5rem,5vw,4rem); font-weight:700;">
+          <span class="text-white">The 11 Principles</span><br/>
+          <span class="lime-text">That Shaped JDun's</span><br/>
+          <span class="text-white">Trading Journey.</span>
+        </h2>
+        <p class="text-gray-400 leading-relaxed mb-6" style="font-size:1.05rem;">
+          JDun spent years refining his psychology and mental models to become the trader he is today — spending countless hours with professional traders and trading psychologists to extract what truly unlocks consistent profitability. These 11 principles are the distillation of that journey, delivered as a completely free ebook.
+        </p>
+        <p class="text-gray-400 leading-relaxed mb-8" style="font-size:1.05rem;">
+          This isn't generic trading advice. It's a framework for how a professional thinks about the market, manages uncertainty, and builds the mental resilience that separates consistently profitable traders from everyone else. Whether you're brand new or have been trading for years, these principles apply at every level.
+        </p>
+
+        <div class="space-y-3 mb-8">
+          <div class="flex items-start gap-3">
+            <div class="principle-num flex-shrink-0" style="width:28px; height:28px; font-size:0.7rem;">✓</div>
+            <div class="text-sm text-gray-400">The psychology and mental models behind profitable day trading</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="principle-num flex-shrink-0" style="width:28px; height:28px; font-size:0.7rem;">✓</div>
+            <div class="text-sm text-gray-400">Frameworks developed alongside professional traders and trading psychologists</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="principle-num flex-shrink-0" style="width:28px; height:28px; font-size:0.7rem;">✓</div>
+            <div class="text-sm text-gray-400">Beginner to advanced traders will find genuine value in each principle</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="principle-num flex-shrink-0" style="width:28px; height:28px; font-size:0.7rem;">✓</div>
+            <div class="text-sm text-gray-400">Completely free — no credit card, no commitment required</div>
+          </div>
+        </div>
+
+        <a href="https://whop.com/team-bull-trading/11-principles-to-profitable-trading-ebook?a=digitalartlab" target="_blank"
+           class="btn-lime inline-flex items-center gap-2 px-8 py-4 rounded-xl font-700 text-base"
+           style="font-weight:700;">
+          Download Free Ebook
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     MEMBER REVIEWS
+═══════════════════════════════════════ -->
+<section class="py-28" style="background:var(--dark);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center mb-14">
+      <h2 class="font-700 leading-none" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:700;">
+        <span class="text-white">The Team</span><br/>
+        <span class="lime-text">Delivers.</span>
+      </h2>
+      <div class="flex items-center justify-center gap-3 mt-4">
+        <div class="flex gap-0.5"><span style="color:var(--lime);">★★★★★</span></div>
+        <span class="text-gray-500 text-sm font-mono">4.6 · 300+ reviews · Whop #1 Trading Community</span>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+
+      <div class="p-6 rounded-2xl reveal" style="background:var(--surface); border:1px solid var(--border2);">
+        <div class="flex gap-0.5 mb-4"><span style="color:var(--lime); font-size:0.9rem;">★★★★★</span></div>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">"Team Bull has reduced my learning curve significantly. I had no idea about options trading and started following admin plays and all the free education they provide. They truly want members to learn and win. No other discord comes near Team Bull."</p>
+        <div class="flex items-center gap-3 pt-3" style="border-top:1px solid var(--border2);">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center font-700 text-xs" style="background:var(--lime); color:var(--charcoal); font-weight:700;">D</div>
+          <div>
+            <div class="text-sm font-600 text-white" style="font-weight:600;">Dave K.</div>
+            <div class="font-mono text-xs text-gray-600">Member since 2021 · Verified</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl reveal" style="background:var(--surface); border:1px solid var(--border2);">
+        <div class="flex gap-0.5 mb-4"><span style="color:var(--lime); font-size:0.9rem;">★★★★★</span></div>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">"I believe Grizzly is one of the best traders in the country. He has a way about him that helps people understand WHAT, WHY and WHEN to take a trade. He truly gives confidence to those who have struggled. The knowledge here has gone way beyond the trading floor."</p>
+        <div class="flex items-center gap-3 pt-3" style="border-top:1px solid var(--border2);">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center font-700 text-xs" style="background:var(--lime); color:var(--charcoal); font-weight:700;">S</div>
+          <div>
+            <div class="text-sm font-600 text-white" style="font-weight:600;">Sarah M.</div>
+            <div class="font-mono text-xs text-gray-600">Verified Whop Member</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl reveal" style="background:var(--surface); border:1px solid var(--border2);">
+        <div class="flex gap-0.5 mb-4"><span style="color:var(--lime); font-size:0.9rem;">★★★★★</span></div>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">"Team Bull is one of the best trading communities out there. There is material for traders of ALL skill sets. Guest speakers like Jared Tendler, lots of learning material, and admin that are transparent and truly want the community to succeed. Greatest community in the world."</p>
+        <div class="flex items-center gap-3 pt-3" style="border-top:1px solid var(--border2);">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center font-700 text-xs" style="background:var(--lime); color:var(--charcoal); font-weight:700;">R</div>
+          <div>
+            <div class="text-sm font-600 text-white" style="font-weight:600;">Ryan T.</div>
+            <div class="font-mono text-xs text-gray-600">Verified Whop Member</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl reveal" style="background:var(--surface); border:1px solid var(--border2);">
+        <div class="flex gap-0.5 mb-4"><span style="color:var(--lime); font-size:0.9rem;">★★★★★</span></div>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">"The community is great. Not only do they trade live every morning, they also do recaps on trades to teach WHY the trade was executed. For those of us just learning, this is gold. The membership has already paid for itself, and it's only been a couple of months."</p>
+        <div class="flex items-center gap-3 pt-3" style="border-top:1px solid var(--border2);">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center font-700 text-xs" style="background:var(--lime); color:var(--charcoal); font-weight:700;">J</div>
+          <div>
+            <div class="text-sm font-600 text-white" style="font-weight:600;">Jordan L.</div>
+            <div class="font-mono text-xs text-gray-600">Verified Whop Member</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl reveal" style="background:var(--surface); border:1px solid var(--border2);">
+        <div class="flex gap-0.5 mb-4"><span style="color:var(--lime); font-size:0.9rem;">★★★★★</span></div>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">"Team Bull has taught me to be disciplined, take accountability, and live my life with INTENTION. The knowledge and wisdom has gone way beyond the trading floor. I've steadily become more consistent — keeping losses small and letting winners ride. Worth every dollar."</p>
+        <div class="flex items-center gap-3 pt-3" style="border-top:1px solid var(--border2);">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center font-700 text-xs" style="background:var(--lime); color:var(--charcoal); font-weight:700;">M</div>
+          <div>
+            <div class="text-sm font-600 text-white" style="font-weight:600;">Marcus P.</div>
+            <div class="font-mono text-xs text-gray-600">Verified Whop Member</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl reveal" style="background:var(--surface); border:1px solid var(--border2);">
+        <div class="flex gap-0.5 mb-4"><span style="color:var(--lime); font-size:0.9rem;">★★★★★</span></div>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">"Through the education I've learned at Team Bull I have become consistently profitable. The admins are open and honest. Not every trade is a winner, but that's the point — they teach you to think, not to follow blindly. This is a group for serious traders who want to actually learn."</p>
+        <div class="flex items-center gap-3 pt-3" style="border-top:1px solid var(--border2);">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center font-700 text-xs" style="background:var(--lime); color:var(--charcoal); font-weight:700;">A</div>
+          <div>
+            <div class="text-sm font-600 text-white" style="font-weight:600;">Alex R.</div>
+            <div class="font-mono text-xs text-gray-600">Multi-year Verified Member</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PRICING
+═══════════════════════════════════════ -->
+<section id="pricing" class="py-28" style="background:var(--surface);">
+  <div class="max-w-5xl mx-auto px-5 lg:px-8">
+    <div class="text-center mb-14">
+      <h2 class="font-700 leading-none" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:700;">
+        <span class="text-white">Join the</span><br/>
+        <span class="lime-text">Herd.</span>
+      </h2>
+      <p class="text-gray-500 max-w-lg mx-auto mt-4">Two membership options. One free ebook to start. Private enrollment — spots open occasionally.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Free Ebook -->
+      <div class="plan-card rounded-2xl p-7">
+        <div class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-2 font-700" style="font-weight:700;">Start Here</div>
+        <div class="font-700 text-5xl text-white mb-1" style="font-weight:700;">Free</div>
+        <div class="text-gray-500 text-sm mb-6">11 Principles Ebook</div>
+        <div class="h-px mb-6" style="background:var(--border2);"></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> 11 Principles to Profitable Trading PDF</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> Trading psychology framework</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> Mental models from JDun & pro traders</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> Applicable to all skill levels</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> No credit card required</li>
+        </ul>
+        <a href="https://whop.com/team-bull-trading/11-principles-to-profitable-trading-ebook?a=digitalartlab" target="_blank"
+           class="block text-center py-3.5 rounded-xl text-sm font-700 border transition-all hover:border-lime-500 text-white"
+           style="border-color:var(--border); font-weight:700;">
+          Download Free →
+        </a>
+      </div>
+
+      <!-- Monthly $99 — FEATURED -->
+      <div class="plan-card featured rounded-2xl p-7 relative overflow-visible">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-full font-mono font-700 text-xs text-charcoal uppercase tracking-widest" style="background:var(--lime); color:var(--charcoal); font-weight:700; white-space:nowrap;">Most Popular</div>
+        <div class="font-mono text-xs uppercase tracking-widest mb-2 font-700" style="color:var(--lime); font-weight:700;">Monthly</div>
+        <div class="flex items-end gap-1 mb-1">
+          <div class="font-700 text-5xl text-white" style="font-weight:700;">$99</div>
+          <div class="text-gray-500 text-sm mb-2">/month</div>
+        </div>
+        <div class="text-gray-500 text-sm mb-6">Full Community Access</div>
+        <div class="h-px mb-6" style="background:rgba(132,204,22,0.2);"></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> All 3 Trading Floors (Admin, Elite, Chat)</li>
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> Daily live voice trading sessions</li>
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> Live screen share with 8+ traders</li>
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> Thousands of hours of recordings</li>
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> Weekly education schedule</li>
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> Industry-leading guest speakers</li>
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> 5,000+ member community access</li>
+          <li class="flex items-start gap-2 text-sm text-gray-300"><span style="color:var(--lime);">◆</span> Trade recaps and strategy breakdown</li>
+        </ul>
+        <a href="https://whop.com/team-bull-trading/team-bull-trading?a=digitalartlab" target="_blank"
+           class="btn-lime block text-center py-4 rounded-xl font-700 text-base"
+           style="font-weight:700;">
+          Join Monthly — $99/mo →
+        </a>
+        <p class="text-center font-mono text-xs text-gray-600 mt-3">Cancel anytime · Whop.com</p>
+      </div>
+
+      <!-- Yearly $1,400 -->
+      <div class="plan-card rounded-2xl p-7">
+        <div class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-2 font-700" style="font-weight:700;">Best Value</div>
+        <div class="flex items-end gap-1 mb-1">
+          <div class="font-700 text-5xl text-white" style="font-weight:700;">$1,400</div>
+        </div>
+        <div class="text-gray-500 text-sm mb-2">/year · Save 2+ months</div>
+        <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono font-700 mb-4" style="background:rgba(132,204,22,0.12); color:var(--lime); font-weight:700;">≈ $116/mo equiv.</div>
+        <div class="h-px mb-6" style="background:var(--border2);"></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> Everything in Monthly, plus:</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> Best long-term value commitment</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> One year of full access</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> All future content updates</li>
+          <li class="flex items-start gap-2 text-sm text-gray-400"><span style="color:var(--lime);">◆</span> Serious traders only</li>
+        </ul>
+        <a href="https://whop.com/team-bull-trading/team-bull-yearly?a=digitalartlab" target="_blank"
+           class="block text-center py-3.5 rounded-xl text-sm font-700 border transition-all hover:border-lime-500 text-white"
+           style="border-color:var(--border); font-weight:700;">
+          Join Yearly — $1,400 →
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Private enrollment callout -->
+    <div class="mt-8 p-6 rounded-2xl text-center" style="background:rgba(132,204,22,0.05); border:1px solid rgba(132,204,22,0.2);">
+      <div class="font-700 text-white text-base mb-2" style="font-weight:700;">⚠️ Private Community — Enrollment Opens Occasionally</div>
+      <p class="text-gray-500 text-sm">Team Bull keeps enrollment controlled to maintain community quality. If access is currently unavailable, join the waitlist at teambull.com to be notified when spots open.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FAQ
+═══════════════════════════════════════ -->
+<section id="faq" class="py-28" style="background:var(--dark);">
+  <div class="max-w-3xl mx-auto px-5 lg:px-8">
+    <div class="text-center mb-14">
+      <h2 class="font-700 leading-none" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:700;">
+        <span class="text-white">FAQ</span>
+      </h2>
+    </div>
+
+    <div class="space-y-3" id="faq-block">
+
+      <div class="faq-item rounded-xl overflow-hidden" style="background:var(--surface); border:1px solid var(--border2);">
+        <button class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4">
+          <span class="font-600 text-sm text-white" style="font-weight:600;">Is Team Bull Trading just signals and callouts?</span>
+          <span class="faq-icon flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center font-mono text-lg" style="background:rgba(132,204,22,0.1); color:var(--lime);">+</span>
+        </button>
+        <div class="faq-body px-6">
+          <p class="text-sm leading-relaxed pb-5 text-gray-400">Absolutely not — and this is intentional. Team Bull Trading prioritizes education over signal-following. The team will discuss their setups and post trade ideas, but they explicitly don't want members blindly copying callouts without understanding why. The philosophy is to teach you to think like a trader — not to create dependency on someone else's calls. This is why recordings, weekly education schedules, and trade recaps exist: so you internalize the reasoning, not just the output.</p>
+        </div>
+      </div>
+
+      <div class="faq-item rounded-xl overflow-hidden" style="background:var(--surface); border:1px solid var(--border2);">
+        <button class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4">
+          <span class="font-600 text-sm text-white" style="font-weight:600;">What markets and instruments does Team Bull cover?</span>
+          <span class="faq-icon flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center font-mono text-lg" style="background:rgba(132,204,22,0.1); color:var(--lime);">+</span>
+        </button>
+        <div class="faq-body px-6">
+          <p class="text-sm leading-relaxed pb-5 text-gray-400">Team Bull covers a wide range of markets: NQ and ES futures (JDun's primary market), stock options (Brandon), scalping strategies for small accounts (Grizzly), long-term investing and fundamentals (GD), and additional crypto and multi-asset coverage from Savage and other educators. The course material includes brokers, account types, technical analysis, options introduction, and Fibonacci strategies — making it genuinely comprehensive.</p>
+        </div>
+      </div>
+
+      <div class="faq-item rounded-xl overflow-hidden" style="background:var(--surface); border:1px solid var(--border2);">
+        <button class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4">
+          <span class="font-600 text-sm text-white" style="font-weight:600;">I'm a complete beginner — is this right for me?</span>
+          <span class="faq-icon flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center font-mono text-lg" style="background:rgba(132,204,22,0.1); color:var(--lime);">+</span>
+        </button>
+        <div class="faq-body px-6">
+          <p class="text-sm leading-relaxed pb-5 text-gray-400">Yes — Team Bull Trading welcomes members at all skill levels. The community includes thousands of hours of beginner-friendly recordings, a structured educational curriculum starting from terminology and account types, and an active community where questions are answered rapidly. The free "11 Principles" ebook is a great starting point. That said, Team Bull will not spoon-feed you — you're expected to put in the work, study the material, and approach trading with the intention of actually learning the skill.</p>
+        </div>
+      </div>
+
+      <div class="faq-item rounded-xl overflow-hidden" style="background:var(--surface); border:1px solid var(--border2);">
+        <button class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4">
+          <span class="font-600 text-sm text-white" style="font-weight:600;">What is the trading schedule? Do I need to be available at market open?</span>
+          <span class="faq-icon flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center font-mono text-lg" style="background:rgba(132,204,22,0.1); color:var(--lime);">+</span>
+        </button>
+        <div class="faq-body px-6">
+          <p class="text-sm leading-relaxed pb-5 text-gray-400">JDun and the core team go live every morning at 9:30AM ET on both YouTube and in the Discord voice channels. However, all sessions are recorded — so if you have a full-time job or are in a different time zone, you can catch up on every session after the fact. Brandon's swing trading content is specifically built for traders with busy schedules and full-time jobs who can't be at their screen at market open every day.</p>
+        </div>
+      </div>
+
+      <div class="faq-item rounded-xl overflow-hidden" style="background:var(--surface); border:1px solid var(--border2);">
+        <button class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4">
+          <span class="font-600 text-sm text-white" style="font-weight:600;">What's included in the free ebook?</span>
+          <span class="faq-icon flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center font-mono text-lg" style="background:rgba(132,204,22,0.1); color:var(--lime);">+</span>
+        </button>
+        <div class="faq-body px-6">
+          <p class="text-sm leading-relaxed pb-5 text-gray-400">The "11 Principles to Profitable Trading" ebook contains the core psychological and mental frameworks that JDun developed over 9+ years of day trading — many refined through work with professional traders and trading psychologists. It covers trading discipline, risk management philosophy, psychological resilience, mental models for decision-making under uncertainty, and the mindset shifts that separate consistently profitable traders from everyone else. It's completely free with no strings attached.</p>
+        </div>
+      </div>
+
+      <div class="faq-item rounded-xl overflow-hidden" style="background:var(--surface); border:1px solid var(--border2);">
+        <button class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4">
+          <span class="font-600 text-sm text-white" style="font-weight:600;">Can I earn money by referring others to Team Bull?</span>
+          <span class="faq-icon flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center font-mono text-lg" style="background:rgba(132,204,22,0.1); color:var(--lime);">+</span>
+        </button>
+        <div class="faq-body px-6">
+          <p class="text-sm leading-relaxed pb-5 text-gray-400">Yes. Team Bull Trading offers a 30% affiliate commission through Whop's affiliate program. When someone joins using your referral link, you earn 30% of their membership fee. Given the $99/month and $1,400/year price points, this is a meaningful recurring income opportunity. The affiliate program is available to all members via their Whop dashboard after joining.</p>
+        </div>
+      </div>
+
+      <div class="faq-item rounded-xl overflow-hidden" style="background:var(--surface); border:1px solid var(--border2);">
+        <button class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4">
+          <span class="font-600 text-sm text-white" style="font-weight:600;">How do I access the community and what platforms does it use?</span>
+          <span class="faq-icon flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center font-mono text-lg" style="background:rgba(132,204,22,0.1); color:var(--lime);">+</span>
+        </button>
+        <div class="faq-body px-6">
+          <p class="text-sm leading-relaxed pb-5 text-gray-400">Team Bull Trading operates primarily through Discord — after joining via Whop, you'll receive a link to connect your Discord account and gain access to all relevant channels based on your membership tier. Daily live sessions run on both Discord voice channels and YouTube (JDun's YouTube channel at youtube.com/@jduntrades). The course material and recordings library are accessible through the Discord and Whop platform. The YouTube channel is also publicly available for free, giving you a preview of JDun's teaching style before joining.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FINAL CTA
+═══════════════════════════════════════ -->
+<section class="py-32 relative overflow-hidden" style="background:var(--charcoal);">
+  <div class="absolute inset-0 dot-grid opacity-40"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-15" style="background:var(--lime);"></div>
+  <div class="absolute top-0 left-0 right-0 h-0.5" style="background:linear-gradient(90deg,transparent,var(--lime),var(--lime-bright),var(--lime),transparent);"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-0.5" style="background:linear-gradient(90deg,transparent,var(--lime),var(--lime-bright),var(--lime),transparent);"></div>
+
+  <div class="max-w-4xl mx-auto px-5 text-center relative z-10">
+    <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8" style="background:rgba(132,204,22,0.08); border:1px solid rgba(132,204,22,0.25);">
+      <div class="live-dot"></div>
+      <span class="font-mono text-xs font-700 uppercase tracking-widest" style="color:var(--lime-bright); font-weight:700;">Live Trading · 9:30AM ET Daily · YouTube & Discord</span>
+    </div>
+
+    <h2 class="font-700 leading-none mb-6" style="font-size:clamp(3rem,8vw,7.5rem); font-weight:700; line-height:0.9;">
+      <span class="text-white">JOIN THE</span><br/>
+      <span class="lime-text">HERD. 🐂</span>
+    </h2>
+    <p class="text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed" style="font-size:1.05rem;">
+      $50M+ in member profits. 5,000+ active traders. 8+ professional educators. Daily live sessions. Thousands of hours of recordings. One community — built to make you a better trader for life.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="https://whop.com/team-bull-trading/team-bull-trading?a=digitalartlab" target="_blank"
+         class="btn-lime inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-700 text-base"
+         style="font-weight:700;">
+        Join Monthly — $99/mo →
+      </a>
+      <a href="https://whop.com/team-bull-trading/11-principles-to-profitable-trading-ebook?a=digitalartlab" target="_blank"
+         class="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-600 text-base text-white border transition-all hover:border-lime-500"
+         style="border-color:var(--border2); font-weight:600;">
+        Get Free Ebook First
+      </a>
+    </div>
+    <p class="font-mono text-xs text-gray-700 mt-6">Trading involves risk. Past results are not indicative of future performance. Always trade responsibly.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer class="py-12" style="background:#08090A; border-top:1px solid var(--border2);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid md:grid-cols-4 gap-10 mb-10">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center" style="background:var(--lime);">
+            <span style="color:var(--charcoal);">🐂</span>
+          </div>
+          <div>
+            <div class="font-700 text-white text-sm" style="font-weight:700;">Team Bull Trading</div>
+            <div class="font-mono text-xs" style="color:var(--lime); font-size:0.55rem; letter-spacing:0.1em;">EDUCATING TRADERS DAILY</div>
+          </div>
+        </div>
+        <p class="font-mono text-xs text-gray-600 leading-relaxed">Founded by JDun · @teambulltrading · 5,000+ Members · $50M+ in Profits · #1 on Whop</p>
+      </div>
+      <div>
+        <div class="font-mono text-xs uppercase tracking-widest mb-4 font-700" style="color:var(--lime); font-weight:700;">Membership</div>
+        <ul class="space-y-2">
+          <li><a href="https://whop.com/team-bull-trading/team-bull-trading?a=digitalartlab" class="font-mono text-xs text-gray-600 hover:text-white transition-colors">Monthly — $99/mo</a></li>
+          <li><a href="https://whop.com/team-bull-trading/team-bull-yearly?a=digitalartlab" class="font-mono text-xs text-gray-600 hover:text-white transition-colors">Yearly — $1,400/yr</a></li>
+          <li><a href="https://whop.com/team-bull-trading/11-principles-to-profitable-trading-ebook?a=digitalartlab" class="font-mono text-xs text-gray-600 hover:text-white transition-colors">Free Ebook</a></li>
+          <li><a href="https://whop.com/team-bull-trading?a=digitalartlab" class="font-mono text-xs text-gray-600 hover:text-white transition-colors">Whop Page</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-xs uppercase tracking-widest mb-4 font-700" style="color:var(--lime); font-weight:700;">Educators</div>
+        <ul class="space-y-2">
+          <li><span class="font-mono text-xs text-gray-600">JDun — NQ Futures, ORB</span></li>
+          <li><span class="font-mono text-xs text-gray-600">Grizzly — Scalping</span></li>
+          <li><span class="font-mono text-xs text-gray-600">Brandon — Options, Swing</span></li>
+          <li><span class="font-mono text-xs text-gray-600">GD — Long-Term Investing</span></li>
+          <li><span class="font-mono text-xs text-gray-600">Savage + More</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-xs uppercase tracking-widest mb-4 font-700" style="color:var(--lime); font-weight:700;">Social</div>
+        <ul class="space-y-2">
+          <li><a href="https://www.youtube.com/@jduntrades" class="font-mono text-xs text-gray-600 hover:text-white transition-colors">YouTube — @jduntrades</a></li>
+          <li><span class="font-mono text-xs text-gray-600">Instagram — @teambulltrading</span></li>
+          <li><span class="font-mono text-xs text-gray-600">TikTok — @teambulltrading</span></li>
+          <li><span class="font-mono text-xs text-gray-600">Twitter — @TeamBullTrading</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-color:var(--border2);">
+      <p class="font-mono text-xs text-gray-700">© 2025 Team Bull Trading · @teambulltrading · Accessed via Whop.com · Affiliate: digitalartlab</p>
+      <p class="font-mono text-xs text-gray-700">Trading involves risk · Not financial advice</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+  // ── NAV ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('on', window.scrollY > 50));
+
+  // ── HAMBURGER ──
+  const hamBtn = document.getElementById('ham');
+  const mobNav = document.getElementById('mnav');
+  const hls = hamBtn.querySelectorAll('.hl');
+  let open = false;
+
+  hamBtn.addEventListener('click', () => {
+    open = !open;
+    if (open) {
+      mobNav.classList.add('open');
+      hls[0].style.transform = 'rotate(45deg) translateY(8px)';
+      hls[1].style.opacity = '0';
+      hls[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+      hls[2].style.width = '24px';
+      document.body.style.overflow = 'hidden';
+    } else {
+      mobNav.classList.remove('open');
+      hls[0].style.transform = '';
+      hls[1].style.opacity = '';
+      hls[2].style.transform = '';
+      hls[2].style.width = '';
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.querySelectorAll('.ml').forEach(l => l.addEventListener('click', () => {
+    open = false;
+    mobNav.classList.remove('open');
+    hls[0].style.transform = '';
+    hls[1].style.opacity = '';
+    hls[2].style.transform = '';
+    hls[2].style.width = '';
+    document.body.style.overflow = '';
+  }));
+
+  // ── FAQ ──
+  document.querySelectorAll('.faq-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const body = item.querySelector('.faq-body');
+      const icon = item.querySelector('.faq-icon');
+      const wasOpen = item.classList.contains('open');
+
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-body').classList.remove('open');
+        i.querySelector('.faq-icon').textContent = '+';
+      });
+
+      if (!wasOpen) {
+        item.classList.add('open');
+        body.classList.add('open');
+        icon.textContent = '×';
+      }
+    });
+  });
+
+  // ── REVEAL ──
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 100);
+        ro.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+  // ── SMOOTH SCROLL ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) {
+        e.preventDefault();
+        window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 75, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
